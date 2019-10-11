@@ -1,0 +1,292 @@
+$bg: #1B2332;
+$bg--dark: #111721;
+$grey: #A8ADB3;
+$text: #FDFFFF;
+$card: #263044;
+$card--focus: #3D4B60;
+$card-component: #414E63;
+$brand: #3F6BB1;
+$brand--light: #4480cb;
+$brand--dark: #35578D;
+$rounding: 10px;
+$font-size: 1rem;
+$font-size--heading: 20px;
+$spacing--sides: 3vw;
+$card--input: #414E63;
+$green: #62FFB5;
+$red: #FF6262;
+$sideInfo: #354054;
+@mixin rounding {
+  -webkit-border-radius: $rounding;
+  -moz-border-radius: $rounding;
+  border-radius: $rounding;
+}
+
+@mixin shadow {
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+
+}
+
+@mixin transition {
+  transition-duration: 0.25s;
+}
+
+@mixin circleCheck {
+  $target: 20px;
+  width: $target;
+  height: $target;
+  display: inline-block;
+  -webkit-border-radius: $target;
+  -moz-border-radius: $target;
+  border-radius: $target;
+  cursor: pointer;
+  transition-duration: 300ms;
+  &:hover {
+    opacity: 0.8;
+  }
+
+}
+
+@mixin card {
+  @include rounding;
+  @include shadow;
+  background: $card;
+  padding: 2vw;
+
+}
+
+@mixin cardComponent {
+  @include card;
+  background: $card-component;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  padding: 1.5vw;
+
+}
+
+@mixin button {
+  padding: 1vw;
+  font-size: $font-size;
+  background: $brand;
+  border: none;
+  @include rounding;
+  color: $text;
+  font-weight: bold;
+  width: 100%;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition-duration: 300ms;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+@mixin input {
+
+  padding: 1vw;
+  background: $brand--dark;
+  border: none;
+  @include rounding;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  font-size: $font-size;
+
+}
+
+
+.notReady {
+  opacity: 0.5 !important;
+
+}
+
+.red {
+  color: $red;
+}
+
+.input {
+  @include input;
+}
+
+.btn {
+  @include button;
+}
+
+.greenBG {
+  background: $green;
+}
+
+.redBG {
+  background: $red !important;
+}
+
+.btn.grey {
+  background: $bg--dark;
+}
+
+.green {
+  color: $green;
+}
+
+.card__heading {
+  font-size: $font-size--heading;
+  font-weight: bold;
+}
+
+.card {
+  @include card;
+
+}
+
+.card--dark {
+  @include card;
+  padding: 1vw;
+  background: $bg--dark;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.card--light {
+  @include card;
+  background: $card--focus;
+}
+
+
+html, body, #app {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  background: $bg;
+  font-family: sans-serif;
+  font-size: $font-size;
+  color: $text;
+}
+
+#app {
+  ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: white;
+  }
+
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: white;
+  }
+
+  :-ms-input-placeholder { /* IE 10+ */
+    color: white;
+  }
+
+  :-moz-placeholder { /* Firefox 18- */
+    color: white;
+  }
+
+  #topNav {
+    height: 8vh;
+    background-color: $brand;
+    display: flex;
+    align-items: center;
+    padding: 0 $spacing--sides;
+
+    .toDash {
+      margin-left: auto;
+      color: white;
+    }
+
+    .brand__image {
+      height: 5vh;
+      margin-right: 1%;
+    }
+
+    .brand {
+      font-weight: bold;
+      font-size: $font-size--heading;
+
+    }
+  }
+}
+
+.home {
+  margin-left: auto;
+  margin-right: auto;
+
+  width: 960px;
+  height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2%;
+
+  .searchBar {
+    input {
+      font-size: 1rem;
+      display: block;
+      width: 50vw;
+      background: $brand;
+      border: none;
+      @include rounding;
+      @include shadow;
+      padding: 2%;
+      @include transition;
+      color: white;
+
+      &:hover {
+        background: $brand--dark;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .rosterContainer {
+    width: 100%;
+    overflow-y: scroll;
+    margin-top: 2%;
+
+
+    .person {
+      width: 100%;
+      display: flex;
+      background: $card;
+      margin: 2% 0;
+      padding: 2%;
+      align-items: center;
+      @include rounding;
+      @include transition;
+
+      &:hover {
+        background: $card--focus;
+      }
+
+      .person__name {
+        width: 300px;
+      }
+
+      .person__role {
+        width: 100px;
+      }
+
+      .person__occupation {
+        width: 300px;
+      }
+
+      .person__checkedIn {
+        margin-left: auto;
+        text-align: right;
+        margin-right: 10px;
+
+      }
+
+      .person__onCampus {
+        text-align: right;
+
+      }
+    }
+  }
+
+}
