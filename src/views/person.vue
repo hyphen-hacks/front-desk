@@ -48,8 +48,7 @@
           </div>
           <div class="card--light overrides">
             <p class="card__heading">Waivers</p>
-            <button @click="submitWaiver" :class="{grey: waiverGood}" class="btn">MANUAL SUBMIT
-              WAIVER
+            <button @click="submitWaiver" :class="{grey: waiverGood}" class="btn">{{waiverBTNText}}
             </button>
             <button @click="submitPermissionLetter"
                     :class="{grey: permissionGood.status}" class="btn large">MANUAL
@@ -63,6 +62,7 @@
         </div>
         <div class="buttonRow">
           <button v-if="!person.checkedIn" @click="checkIn" class="btn">CHECK IN</button>
+          <button v-if="person.checkedIn" @click="checkOut" class="btn grey">CHECK OUT</button>
           <button v-if="person.checkedIn" @click="toggleCampus" class="btn">{{onCampusText}}</button>
         </div>
       </div>
@@ -86,6 +86,7 @@
     },
 
     computed: {
+
       person: {
         get() {
           return this.personStorage
@@ -106,6 +107,13 @@
       },
       waiverGood() {
         return this.person.waiverStatus === 2
+      },
+      waiverBTNText() {
+        if (this.waiverGood) {
+          return 'UN-SUBMIT WAIVER'
+        } else {
+          return 'MANUAL SUBMIT WAIVER'
+        }
       },
       waiverText() {
 
@@ -185,6 +193,13 @@
 
 
       },
+      permissionBTNText() {
+        if (this.permissionGood().status) {
+          return 'UN-SUBMIT PERMISSION SLIP'
+        } else {
+          return 'MANUAL SUBMIT PERMISSION SLIP'
+        }
+      },
       flagged() {
         console.log(this.permissionGood.status, this.waiverGood, !this.alergieFlag)
         if (this.permissionGood.status && this.waiverGood && !this.alergieFlag && !this.person.notes) {
@@ -210,6 +225,27 @@
       })
     },
     methods: {
+      checkOut() {
+        this.$swal({
+          title: "Are you sure?",
+          text: "You should only check someone out if you made a mistake in checking them in. THIS WILL ALSO MARK THEM AS OFF CAMPUS. IF YOU NEED TO MAKE MORE NUANCED CHANGES USE THE DASHBOARD We use checkin as a record of how many people actually came on campus at one point.",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            this.$firebase.firestore().collection('people').doc(this.person.id).update({
+              checkedIn: false, onCampus: false
+            }).then(i => {
+              this.person.checkedIn = false;
+              this.person.onCampus = false;
+            })
+          }
+
+
+        });
+      },
       saveNotes() {
         this.$firebase.firestore().collection('people').doc(this.person.id).update({
           notes: this.person.notes

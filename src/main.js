@@ -5,6 +5,7 @@ import store from './store'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import swal from 'sweetalert';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDCnWcOvTFf5P4mWeSl0KDxnGOEDRJTVwg",
@@ -18,6 +19,7 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 Vue.prototype.$firebase = firebase
+Vue.prototype.$swal = swal
 Vue.config.productionTip = false
 
 new Vue({
