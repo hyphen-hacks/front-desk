@@ -48,10 +48,10 @@
           </div>
           <div class="card--light overrides">
             <p class="card__heading">Waivers</p>
-            <button @click="submitWaiver" :disabled="waiverGood" :class="{grey: waiverGood}" class="btn">MANUAL SUBMIT
+            <button @click="submitWaiver" :class="{grey: waiverGood}" class="btn">MANUAL SUBMIT
               WAIVER
             </button>
-            <button @click="submitPermissionLetter" :disabled="permissionGood.status"
+            <button @click="submitPermissionLetter"
                     :class="{grey: permissionGood.status}" class="btn large">MANUAL
               SUBMIT PERMISSION LETTER
             </button>
@@ -229,14 +229,35 @@
         })
       },
       submitWaiver() {
-        this.$firebase.firestore().collection('people').doc(this.person.id).update({waiverStatus: 2}).then(i => {
-          this.person.waiverStatus = 2;
-        })
+
+        if (this.person.waiverStatus != 2) {
+          this.person.legacyWaiverStatus = this.person.waiverStatus
+          this.$firebase.firestore().collection('people').doc(this.person.id).update({
+            waiverStatus: 2, legacyWaiverStatus: this.person.waiverStatus
+          }).then(i => {
+            this.person.waiverStatus = 2;
+          })
+        } else {
+          if (!this.person.legacyWaiverStatus) {
+            this.person.legacyWaiverStatus = 0
+          }
+          this.$firebase.firestore().collection('people').doc(this.person.id).update({waiverStatus: this.person.legacyWaiverStatus}).then(i => {
+            this.person.waiverStatus = this.person.legacyWaiverStatus;
+          })
+        }
+
       },
       submitPermissionLetter() {
-        this.$firebase.firestore().collection('people').doc(this.person.id).update({lickWaiver: true}).then(i => {
-          this.person.lickWaiver = true;
-        })
+        if (this.person.lickWaiver === false) {
+          this.$firebase.firestore().collection('people').doc(this.person.id).update({lickWaiver: true}).then(i => {
+            this.person.lickWaiver = true;
+          })
+        } else {
+          this.$firebase.firestore().collection('people').doc(this.person.id).update({lickWaiver: false}).then(i => {
+            this.person.lickWaiver = false;
+          })
+        }
+
       }
     },
   }
