@@ -142,7 +142,7 @@
         if (this.role === 'Attendee') {
           if (this.lickDefinitions) {
 
-            if (this.lickDefinitions.synonyms.indexOf(this.occupation.toLowerCase()) > -1) {
+            if (this.lickDefinitions.synonyms.indexOf(this.occupation.toLowerCase()) > -1 || this.occupation.toLowerCase().indexOf('lick') > -1) {
               if (this.person.lickWaiver) {
                 return {
                   status: true,
