@@ -51,8 +51,7 @@
             <button @click="submitWaiver" :class="{grey: waiverGood}" class="btn">{{waiverBTNText}}
             </button>
             <button @click="submitPermissionLetter"
-                    :class="{grey: permissionGood.status}" class="btn large">MANUAL
-              SUBMIT PERMISSION LETTER
+                    :class="{grey: permissionGood.status}" class="btn large">{{permissionBTNText}}
             </button>
             <p class="info">Use these buttons to indicate that one of their waivers was submitted in person. Make sure
               to keep the
@@ -194,7 +193,7 @@
 
       },
       permissionBTNText() {
-        if (this.permissionGood().status) {
+        if (this.permissionGood.status) {
           return 'UN-SUBMIT PERMISSION SLIP'
         } else {
           return 'MANUAL SUBMIT PERMISSION SLIP'

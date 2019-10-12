@@ -17,7 +17,7 @@
       <input id="onCampusFilter" type="checkbox" v-model="filterOptions.onCampus">
     </div>
     <div class="rosterContainer">
-      <router-link :to="`/person/${person.id}`" v-for="person in filteredRoster" class="person">
+      <router-link :to="`/person/${person.id}`" :key="person.id" v-for="person in filteredRoster" class="person">
         <p class="person__name">{{person.name}}</p>
         <p class="person__role">{{role(person)}}</p>
         <p class="person__occupation">{{occupation(person)}}</p>
