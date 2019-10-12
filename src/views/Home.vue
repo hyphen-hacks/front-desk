@@ -4,7 +4,18 @@
     <form class="searchBar" @submit.prevent>
       <input v-model="search" type="text" placeholder="Search for a name">
     </form>
-
+    <div class="filterRow">
+      <label for="attendeeFilter">Include Attendees</label>
+      <input id="attendeeFilter" type="checkbox" v-model="filterOptions.attendees">
+      <label for="mentorFilter">Include Mentors</label>
+      <input id="mentorFilter" type="checkbox" v-model="filterOptions.mentors">
+      <label for="volunteerFilter">Include Volunteers</label>
+      <input id="volunteerFilter" type="checkbox" v-model="filterOptions.volunteers">
+      <label for="checkedInFilter">Only Show Checked In</label>
+      <input id="checkedInFilter" type="checkbox" v-model="filterOptions.checkedIn">
+      <label for="onCampusFilter">Only Show On Campus</label>
+      <input id="onCampusFilter" type="checkbox" v-model="filterOptions.onCampus">
+    </div>
     <div class="rosterContainer">
       <router-link :to="`/person/${person.id}`" v-for="person in filteredRoster" class="person">
         <p class="person__name">{{person.name}}</p>
@@ -34,13 +45,43 @@
         people: [],
         search: "",
         loading: false,
+        filterOptions: {
+          attendees: true,
+          mentors: true,
+          volunteers: true,
+          checkedIn: false,
+          onCampus: false
+        }
 
       }
     },
     computed: {
       filteredRoster() {
         return this.$parent.roster.filter((person) => {
-          return person.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
+          let searchTerm, roleType;
+          let status = true
+          if (this.search.length > 0) {
+            searchTerm = person.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+          } else {
+            searchTerm = true
+          }
+          if (this.filterOptions.attendees && this.role(person) === 'Attendee') {
+            roleType = true
+          } else if (this.filterOptions.mentors && this.role(person) === 'Mentor/Judge') {
+            roleType = true
+          } else if (this.filterOptions.volunteers && this.role(person) === 'Volunteer') {
+            roleType = true
+          }
+          if (this.filterOptions.onCampus && !person.onCampus) {
+            status = false
+          }
+          if (this.filterOptions.checkedIn && !person.checkedIn) {
+            status = false
+          }
+
+          //console.log(searchTerm, roleType, status)
+          return searchTerm && roleType && status;
+
         })
       }
     },

@@ -191,6 +191,7 @@ html, body, #app {
     display: flex;
     align-items: center;
     padding: 0 $spacing--sides;
+
     .frontDeskLink {
       color: white;
       margin-left: 2%;
@@ -221,6 +222,16 @@ html, body, #app {
   align-items: center;
   padding-top: 2%;
 
+  .filterRow {
+    display: flex;
+    align-items: center;
+    padding: 2% 0;
+    label {
+      margin-right: 5px;
+      margin-left: 10px;
+    }
+  }
+
   .searchBar {
     input {
       font-size: 1rem;
@@ -247,7 +258,7 @@ html, body, #app {
   .rosterContainer {
     width: 100%;
     overflow-y: scroll;
-    margin-top: 2%;
+
     color: white;
     text-decoration: none;
 
