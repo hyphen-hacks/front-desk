@@ -3,7 +3,7 @@
     <nav id="topNav">
       <img src="@/assets/logo.svg" class="brand__image" alt="">
       <h1 class="brand">Hyphen-Hacks Front Desk v<span>{{version}}</span></h1>
-      <a class="toDash" href="https://dashboard.hyphen-hacks.com">dashboard</a>
+      <a class="frontDeskLink" href="https://dashboard.hyphen-hacks.com">dashboard</a>
     </nav>
     <loading v-if="loading"></loading>
     <router-view/>

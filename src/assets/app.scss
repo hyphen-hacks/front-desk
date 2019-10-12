@@ -194,11 +194,11 @@ html, body, #app {
     display: flex;
     align-items: center;
     padding: 0 $spacing--sides;
-
-    .toDash {
-      margin-left: auto;
+    .frontDeskLink {
       color: white;
+      margin-left: 2%;
     }
+
 
     .brand__image {
       height: 5vh;
