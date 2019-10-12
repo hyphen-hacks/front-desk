@@ -79,13 +79,21 @@
     components: {loading},
     data() {
       return {
-        person: false,
+        personStorage: false,
         lickDefinitions: [],
         loading: true
       }
     },
 
     computed: {
+      person: {
+        get() {
+          return this.personStorage
+        },
+        set(val) {
+          return this.personStorage = val
+        }
+      },
       onCampusText() {
         if (this.person.onCampus) {
           return 'Mark Off Campus'
@@ -232,10 +240,11 @@
 
         if (this.person.waiverStatus != 2) {
           this.person.legacyWaiverStatus = this.person.waiverStatus
+          this.person.waiverStatus = 2;
           this.$firebase.firestore().collection('people').doc(this.person.id).update({
-            waiverStatus: 2, legacyWaiverStatus: this.person.waiverStatus
+            waiverStatus: 2, legacyWaiverStatus: this.person.legacyWaiverStatus
           }).then(i => {
-            this.person.waiverStatus = 2;
+            console.log('updated')
           })
         } else {
           if (!this.person.legacyWaiverStatus) {
@@ -243,20 +252,19 @@
           }
           this.$firebase.firestore().collection('people').doc(this.person.id).update({waiverStatus: this.person.legacyWaiverStatus}).then(i => {
             this.person.waiverStatus = this.person.legacyWaiverStatus;
+          }).then(i => {
+            console.log('updated')
           })
         }
 
       },
       submitPermissionLetter() {
-        if (this.person.lickWaiver === false) {
-          this.$firebase.firestore().collection('people').doc(this.person.id).update({lickWaiver: true}).then(i => {
-            this.person.lickWaiver = true;
-          })
-        } else {
-          this.$firebase.firestore().collection('people').doc(this.person.id).update({lickWaiver: false}).then(i => {
-            this.person.lickWaiver = false;
-          })
-        }
+        console.log('got request to update permission letter')
+        this.person.lickWaiver = !this.person.lickWaiver;
+        console.log(this.person.lickWaiver)
+        this.$firebase.firestore().collection('people').doc(this.person.id).update({lickWaiver: this.person.lickWaiver}).then(i => {
+          console.log('updated')
+        })
 
       }
     },
